@@ -30,7 +30,7 @@ $Error.Clear()
 $RCMEConfig = @{}
 
 # RCME Script Production Mode
-$RCMEConfig.Production = $False
+$RCMEConfig.Production = $True
 
 # RCME Script Configuration
 $RCMEConfig.ScriptName = "My Right Click"
