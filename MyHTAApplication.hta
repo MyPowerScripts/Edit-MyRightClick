@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>My HTA Application</title>
+    <HTA:APPLICATION
+      ID="MyHTA"
+      ApplicationName="My HTA Application"
+      Border  = "thin"
+      Caption = "Yes"
+      MaximizeButton = "No"
+      MinimizeButton = "No"
+      Scroll = "No"
+      ShowInTaskbar = "Yes"
+      SingleInstance = "No"
+      SysMenu = "Yes"
+      WindowState = "Normal"
+    >
+  </head>
+  <Script Language="VBScript">
+' *****************************************************************************
+Sub Window_OnLoad ()
+  On Error Resume Next
+
+  MyWidth = MyTable.OffsetWidth + 40
+  MyHeight = MyTable.OffsetHeight + 40
+  Me.ResizeTo MyWidth, MyHeight
+  With Document.Body
+    Me.ResizeTo MyWidth + (MyWidth - .OffsetWidth), MyHeight + (MyHeight - .OffsetHeight)
+  End With
+  Me.MoveTo (Screen.Width - MyWidth) / 2, 0
+  
+  MyParams.Value = ""
+  MyCommands = Split(MyHTA.CommandLine, chr(34))
+  For Count = 3 to (Ubound(MyCommands) - 1) Step 2
+    if MyCommands(Count) <> "" and Left(MyCommands(Count), 5) <> "##SUB" then
+      MyParams.Value = MyParams.Value & vbCrLf & "Param#" & ((Count - 1) / 2) & " " & MyCommands(Count)
+    end if
+  Next
+End Sub
+' *****************************************************************************
+
+' *****************************************************************************
+Sub CloseHTA()
+  On Error Resume Next
+
+  Window.Close
+End Sub
+' *****************************************************************************
+  </Script>
+  <body style="font-family: tahoma; font-size: 10px; font-weight: normal; color: 'Black'; background-color: 'White';">
+    <div align="center">
+      <table id=MyTable name=MyTable style="width: 400px; font-family: tahoma; font-size: 16px; font-weight: bold; background-color: 'White'; border: 2px solid 'Black'; empty-cells: show;">
+        <tr>
+          <td colspan="4" align="center" style="border: 2px solid 'Black'; color: 'Black'; font-size: 24px; background-color: 'LightSkyBlue'">My HTA Application</td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center"></td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center"><textarea id=MyParams name=MyParams  rows=18 cols=60></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center"></td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center"><input id="MyButton" type="button" value="Close HTA" OnClick="CloseHTA()" style="font-family: tahoma; font-size: 16px; font-weight: normal"/></td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center"></td>
+        </tr>
+      </table>
+    </div>
+  </body>
+  </body>
+</html>
